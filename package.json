@@ -4,14 +4,12 @@
   "type": "module",
   "description": "Primeira etapa do recrutamentoa vaga de Desenvolvedor Fullstack ( Javascript )",
   "main": "index.js",
-
   "scripts": {
-  "dev": "node --loader ts-node/esm -r dotenv/config src/server.ts",
-  "build": "tsc",
-  "start": "node dist/index.js",
-  "prod": "NODE_ENV=production node dist/server.js"
-},
-
+    "dev": "node --loader ts-node/esm -r dotenv/config src/server.ts",
+    "build": "tsc",
+    "start": "node dist/index.js",
+    "prod": "NODE_ENV=production node dist/server.js"
+  },
   "keywords": [],
   "author": "",
   "license": "ISC",
@@ -23,6 +21,7 @@
   },
   "dependencies": {
     "dotenv": "^16.4.5",
-    "express": "^4.21.1"
+    "express": "^4.21.1",
+    "jsonwebtoken": "^9.0.2"
   }
 }
