@@ -1,0 +1,28 @@
+{
+  "name": "teste-para-a-a-vaga-de-desenvolvedor-fullstack---javascript-----1",
+  "version": "1.0.0",
+  "type": "module",
+  "description": "Primeira etapa do recrutamentoa vaga de Desenvolvedor Fullstack ( Javascript )",
+  "main": "index.js",
+
+  "scripts": {
+  "dev": "node --loader ts-node/esm -r dotenv/config src/server.ts",
+  "build": "tsc",
+  "start": "node dist/index.js",
+  "prod": "NODE_ENV=production node dist/server.js"
+},
+
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "devDependencies": {
+    "@types/express": "^5.0.0",
+    "@types/node": "^22.9.0",
+    "ts-node": "^10.9.2",
+    "typescript": "^5.6.3"
+  },
+  "dependencies": {
+    "dotenv": "^16.4.5",
+    "express": "^4.21.1"
+  }
+}
