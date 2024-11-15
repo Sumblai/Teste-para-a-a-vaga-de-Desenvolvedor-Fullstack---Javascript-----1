@@ -78,3 +78,8 @@ JWT (JSON Web Tokens): Para autenticação e autorização de usuários.
 Bcrypt: Para criptografar senhas.
 TypeScript: Superset de JavaScript que traz tipagem estática.
 Cors: Para habilitar solicitações entre diferentes origens.
+
+# Conctactos :
+
+Linkedin : https://www.linkedin.com/in/pedro-diassala-18178b203/
+
