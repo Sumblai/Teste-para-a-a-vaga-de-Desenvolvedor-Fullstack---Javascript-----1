@@ -1,4 +1,3 @@
-// domain/repositories/IBookingRepository.ts
 import { IBooking } from "../entities/Booking";
 
 interface IBookingRepository {

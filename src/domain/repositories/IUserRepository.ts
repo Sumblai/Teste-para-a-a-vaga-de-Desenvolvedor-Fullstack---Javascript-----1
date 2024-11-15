@@ -1,4 +1,3 @@
-// domain/repositories/IUserRepository.ts
 import { IUser } from "../entities/User";
 
 interface IUserRepository {

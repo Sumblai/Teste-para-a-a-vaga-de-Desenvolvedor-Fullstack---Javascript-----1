@@ -1,4 +1,3 @@
-// domain/repositories/IServiceRepository.ts
 import { IService } from "../entities/Service";
 
 interface IServiceRepository {

@@ -7,19 +7,17 @@ function generateToken(payload: object): string {
   return jwt.sign(payload, SECRET_KEY, { expiresIn: "1h" });
 }
 
-export function authenticateJWT(
+export const authenticateJWT = (
   req: Request,
   res: Response,
   next: NextFunction
-) {
+): void => {
   const token = req.cookies.token;
 
   console.log("token extraido : ", token);
 
   if (!token) {
-    return res
-      .status(401)
-      .json({ message: "Access token is missing or invalid" });
+    res.status(401).json({ message: "Access token is missing or invalid" });
   }
 
   try {
@@ -30,7 +28,7 @@ export function authenticateJWT(
     req.user = decoded;
     next();
   } catch (error) {
-    return res.status(403).json({ message: "Invalid or expired token" });
+    res.status(403).json({ message: "Invalid or expired token" });
   }
-}
+};
 export { generateToken };

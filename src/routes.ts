@@ -19,12 +19,20 @@ import {
   createBooking,
   getClientBookingHistory,
   getServiceBookingHistory,
+  cancelBooking,
+  updateBookingDate,
 } from "./app/controllers/bookingController";
+
+import {
+  validateInputs,
+  validateAndSanitize,
+  loginLimiter,
+} from "./utils/security";
 
 const router = express.Router();
 
-router.post("/register", register);
-router.post("/login", login);
+router.post("/register", validateInputs, validateAndSanitize, register);
+router.post("/login", loginLimiter, validateInputs, validateAndSanitize, login);
 router.post("/service", authenticateJWT, requireProviderRole, addService);
 router.put(
   "/updateService",
@@ -58,4 +66,18 @@ router.get(
   requireProviderRole,
   getServiceBookingHistory
 );
+
+router.put(
+  "/booking/:bookingId/update-date",
+  authenticateJWT,
+  requireClientRole,
+  updateBookingDate
+);
+router.delete(
+  "/booking/:bookingId",
+  authenticateJWT,
+  requireClientRole,
+  cancelBooking
+);
+
 export { router };
