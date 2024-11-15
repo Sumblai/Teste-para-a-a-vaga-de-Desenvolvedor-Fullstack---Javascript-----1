@@ -7,11 +7,14 @@ interface IBooking extends Document {
   createdAt: Date;
 }
 
-const BookingSchema: Schema = new Schema({
-  clientId: { type: Schema.Types.ObjectId, ref: "User", required: true },
-  serviceId: { type: Schema.Types.ObjectId, ref: "Service", required: true },
-  createdAt: { type: Date, default: Date.now },
-});
+const BookingSchema: Schema = new Schema(
+  {
+    clientId: { type: Schema.Types.ObjectId, ref: "User", required: true },
+    serviceId: { type: Schema.Types.ObjectId, ref: "Service", required: true },
+    createdAt: { type: Date, default: Date.now },
+  },
+  { timestamps: true } // Inclui automaticamente createdAt e updatedAt
+);
 
 export default mongoose.model<IBooking>("Booking", BookingSchema);
 export { IBooking };

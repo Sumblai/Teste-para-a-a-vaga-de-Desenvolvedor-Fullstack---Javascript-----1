@@ -1,4 +1,3 @@
-// domain/entities/User.ts
 import mongoose, { Schema, Document } from "mongoose";
 
 interface IUser extends Document {
@@ -7,8 +6,7 @@ interface IUser extends Document {
   email: string;
   password: string;
   role: "cliente" | "prestador";
-  balance?: number; // Saldo opcional, pois só será usado para "cliente"
-  availableSlots?: number; // Slots disponíveis, opcional para "prestador"
+  balance?: number;
 }
 
 const UserSchema: Schema = new Schema({
@@ -28,20 +26,6 @@ const UserSchema: Schema = new Schema({
         );
       },
       message: "Balance is required for clients and must be non-negative",
-    },
-  },
-  availableSlots: {
-    type: Number,
-    default: 0,
-    validate: {
-      validator: function (this: IUser) {
-        return (
-          this.role !== "prestador" ||
-          (this.availableSlots !== undefined && this.availableSlots >= 0)
-        );
-      },
-      message:
-        "Available slots are required for providers and must be non-negative",
     },
   },
 });

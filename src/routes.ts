@@ -10,18 +10,52 @@ import {
 } from "./app/controllers/serviceController";
 
 //import { sanitizeInput } from "./utils/security";
-import { verifyToken } from "./utils/Jwt";
-import { createBooking } from "./app/controllers/bookingController";
+import { authenticateJWT } from "./utils/Jwt";
+import {
+  requireClientRole,
+  requireProviderRole,
+} from "./utils/rolemiddlewares";
+import {
+  createBooking,
+  getClientBookingHistory,
+  getServiceBookingHistory,
+} from "./app/controllers/bookingController";
 
 const router = express.Router();
 
 router.post("/register", register);
 router.post("/login", login);
-router.post("/service", addService);
-router.put("/updateService", updateService);
-router.delete("/deleteService", deleteService);
-router.post("/booking", createBooking);
-router.put("/updateBalance", updateBalance)
-router.put("updateSlots", updateAvailableSlots)
-
+router.post("/service", authenticateJWT, requireProviderRole, addService);
+router.put(
+  "/updateService",
+  authenticateJWT,
+  requireProviderRole,
+  updateService
+);
+router.delete(
+  "/deleteService",
+  authenticateJWT,
+  requireProviderRole,
+  deleteService
+);
+router.post("/booking", authenticateJWT, requireClientRole, createBooking);
+router.put("/updateBalance", authenticateJWT, requireClientRole, updateBalance);
+router.put(
+  "/updateSlots",
+  authenticateJWT,
+  requireProviderRole,
+  updateAvailableSlots
+);
+router.get(
+  "/clientHistory/:clientId",
+  authenticateJWT,
+  requireClientRole,
+  getClientBookingHistory
+);
+router.get(
+  "/providerHistory/:serviceId",
+  authenticateJWT,
+  requireProviderRole,
+  getServiceBookingHistory
+);
 export { router };

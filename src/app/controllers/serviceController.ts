@@ -8,20 +8,16 @@ export async function addService(req: Request, res: Response) {
   const { name, description, price, providerId } = req.body;
 
   try {
-    // Buscar o usuário pelo providerId
     const user = await User.findById(providerId);
 
-    // Verificar se o usuário existe e se é um prestador
     if (!user || user.role !== "prestador") {
       return res
         .status(403)
         .json({ message: "Access denied. You are not a provider." });
     }
 
-    // Criar o serviço
     const service = new Service({ name, description, price, providerId });
 
-    // Salvar o serviço
     const savedService = await serviceRepository.create(service);
     return res.json({
       message: "Service created",
@@ -98,10 +94,10 @@ export async function deleteService(req: Request, res: Response) {
 }
 
 export async function updateBalance(req: Request, res: Response) {
-  const { userId, amount } = req.body;
+  const { clientId, amount } = req.body;
 
   try {
-    const user = await User.findById(userId);
+    const user = await User.findById(clientId);
 
     if (!user || user.role !== "cliente") {
       return res
@@ -122,23 +118,20 @@ export async function updateBalance(req: Request, res: Response) {
 }
 
 export async function updateAvailableSlots(req: Request, res: Response) {
-  const { userId, availableSlots } = req.body;
+  const { serviceId, availableSlots } = req.body;
 
   try {
-    const user = await User.findById(userId);
-
-    if (!user || user.role !== "prestador") {
-      return res
-        .status(403)
-        .json({ message: "Only service providers can update available slots" });
+    const service = await Service.findById(serviceId);
+    if (!service) {
+      return res.status(404).json({ message: "Service not found" });
     }
 
-    user.availableSlots = availableSlots;
-    await user.save();
+    service.availableSlots = availableSlots;
+    await service.save();
 
     res.json({
       message: "Available slots updated successfully",
-      availableSlots: user.availableSlots,
+      availableSlots: service.availableSlots,
     });
   } catch (error) {
     res.status(500).json({ message: "Error updating available slots", error });
