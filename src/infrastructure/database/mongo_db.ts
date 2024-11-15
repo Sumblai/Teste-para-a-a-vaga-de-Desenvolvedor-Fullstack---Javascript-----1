@@ -1,8 +1,6 @@
 import mongoose from "mongoose";
 
 const localUri = "mongodb://localhost:27017/";
-const webUri =
-  "mongodb+srv://pedro:diassala@devapi.up2r3fm.mongodb.net/?retryWrites=true&w=majority&appName=DevApi";
 
 export const connectDB = async () => {
   try {
