@@ -28,6 +28,31 @@ project/
 |-- routes.ts
 |-- server.ts
 
+
+# Como Rodar o Projeto Localmente
+Pré-requisitos
+Certifique-se de ter as seguintes ferramentas instaladas:
+
+Node.js (preferencialmente versão 18 ou superior)
+Docker e Docker Compose (caso queira rodar com Docker)
+Passo 1: Instalar Dependências
+
+Instale as dependências do projeto:
+- npm install
+
+# Passo 2: Rodar a Aplicação
+- npm run dev (para desenvolvimento)
+  ou
+- npm run build  e depois npm start (para produção)
+
+
+# Passo 3: Rodar com Docker
+Se preferir rodar com Docker, siga os passos abaixo:
+Build da imagem Docker:
+
+Para construir a imagem Docker, execute o comando:
+- docker-compose up --build
+
 Rotas da API:
 
 Aqui estão as rotas disponíveis para interação com a API:
@@ -68,18 +93,13 @@ Autenticação com JWT: A maioria das rotas exige um token JWT válido no cabeç
 
 # Tecnologias
 
-Este projeto utiliza as seguintes tecnologias:
-
-Node.js: Ambiente de execução JavaScript.
-Express: Framework para criação de APIs.
-MongoDB: Banco de dados NoSQL.
-Mongoose: Biblioteca para modelar dados no MongoDB.
-JWT (JSON Web Tokens): Para autenticação e autorização de usuários.
-Bcrypt: Para criptografar senhas.
-TypeScript: Superset de JavaScript que traz tipagem estática.
-Cors: Para habilitar solicitações entre diferentes origens.
-
+- **Node.js** e **Express.js** para construir a API REST.
+- **TypeScript** para garantir segurança de tipos e facilitar a manutenção do código.
+- **MongoDB** (usando **Mongoose**) para armazenamento de dados.
+- **Docker** para contêinerização e facilitar a implantação da aplicação.
+- **express-validator** para validação e sanitização de dados de entrada.
+- **express-rate-limit** para prevenir ataques de **brute-force**.
+- 
 # Conctactos :
-
 Linkedin : https://www.linkedin.com/in/pedro-diassala-18178b203/
 
