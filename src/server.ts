@@ -8,13 +8,14 @@ import express, { Request, Response } from "express";
 
 const app = express();
 const port = process.env.PORT || 3000;
+const ORIGIN = `http://localhost:${port}`;
 
 app.get("/", (req: Request, res: Response) => {
   res.send(`Server is running in ${process.env.NODE_ENV} mode`);
 });
 
 const corsOptions = {
-  origin: "http://localhost:3000",
+  origin: ORIGIN,
   credentials: true,
   optionSuccessStatus: 200,
 };

@@ -2,12 +2,12 @@
   "name": "teste-para-a-a-vaga-de-desenvolvedor-fullstack---javascript-----1",
   "version": "1.0.0",
   "description": "Primeira etapa do recrutamentoa vaga de Desenvolvedor Fullstack ( Javascript )",
-  "main": "index.js",
+  "main": "server.js",
   "scripts": {
-    "dev": "tsx watch src/server.ts",
+    "dev": "cross-env PORT=3000 NODE_ENV=development tsx watch src/server.ts",
     "build": "tsc",
     "start": "node dist/server.js",
-    "prod": "NODE_ENV=production node dist/server.js"
+    "prod": "cross-env PORT=8000  NODE_ENV=production node dist/server.js"
   },
   "keywords": [],
   "author": "",

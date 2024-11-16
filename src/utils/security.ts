@@ -15,13 +15,11 @@ export const validateAndSanitize = (
 ): void => {
   const errors = validationResult(req);
 
-  // Se houver erros, envia a resposta e não chama o next
   if (!errors.isEmpty()) {
     res.status(400).json({ errors: errors.array() });
-    return; // Aqui usamos `return` para garantir que o fluxo seja interrompido
+    return;
   }
 
-  // Se não houver erros, passa para o próximo middleware
   next();
 };
 
