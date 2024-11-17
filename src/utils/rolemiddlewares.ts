@@ -6,7 +6,11 @@ export function requireClientRole(
   next: NextFunction
 ): void {
   if (req.user?.role !== "cliente") {
-    res.status(403).json({ message: "Access restricted to clients only" });
+    res
+      .status(403)
+      .json({
+        message: "you are not logged in, access restricted to clients only",
+      });
     return;
   }
   next();
@@ -18,7 +22,11 @@ export function requireProviderRole(
   next: NextFunction
 ): void {
   if (req.user?.role !== "prestador") {
-    res.status(403).json({ message: "Access restricted to providers only" });
+    res
+      .status(403)
+      .json({
+        message: "you are not logged in, access restricted to providers only",
+      });
     return;
   }
   next();
