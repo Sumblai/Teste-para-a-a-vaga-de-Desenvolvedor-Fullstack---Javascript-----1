@@ -8,13 +8,19 @@ const express_rate_limit_1 = __importDefault(require("express-rate-limit"));
 const express_validator_1 = require("express-validator");
 exports.validateInputs = [
     (0, express_validator_1.body)("name").trim().escape(),
-    (0, express_validator_1.body)("email").isEmail().normalizeEmail(),
+    (0, express_validator_1.body)("email")
+        .isEmail()
+        .withMessage("Please provide a valid email address in the format: user@example.com.")
+        .normalizeEmail(),
     (0, express_validator_1.body)("message").trim().escape(),
 ];
 const validateAndSanitize = (req, res, next) => {
     const errors = (0, express_validator_1.validationResult)(req);
     if (!errors.isEmpty()) {
-        res.status(400).json({ errors: errors.array() });
+        const customErrors = errors.array().map((error) => ({
+            message: error.msg,
+        }));
+        res.status(400).json({ errors: customErrors });
         return;
     }
     next();

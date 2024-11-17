@@ -4,7 +4,12 @@ import { Request, Response, NextFunction } from "express";
 
 export const validateInputs = [
   body("name").trim().escape(),
-  body("email").isEmail().normalizeEmail(),
+  body("email")
+    .isEmail()
+    .withMessage(
+      "Please provide a valid email address in the format: user@example.com."
+    )
+    .normalizeEmail(),
   body("message").trim().escape(),
 ];
 
@@ -16,7 +21,11 @@ export const validateAndSanitize = (
   const errors = validationResult(req);
 
   if (!errors.isEmpty()) {
-    res.status(400).json({ errors: errors.array() });
+    const customErrors = errors.array().map((error) => ({
+      message: error.msg,
+    }));
+
+    res.status(400).json({ errors: customErrors });
     return;
   }
 

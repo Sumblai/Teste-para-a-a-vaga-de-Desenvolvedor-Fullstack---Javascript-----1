@@ -11,7 +11,7 @@ const port = process.env.PORT || 3000;
 const ORIGIN = `http://localhost:${port}`;
 
 app.get("/", (req: Request, res: Response) => {
-  res.send(`Server is running in ${process.env.NODE_ENV} mode`);
+  res.send(`Server is running on port ${port} in ${process.env.NODE_ENV} mode`);
 });
 
 const corsOptions = {

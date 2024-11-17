@@ -27,6 +27,16 @@ function register(req, res) {
             res.status(400).json({ message: "NIF must have exactly 9 digits" });
             return;
         }
+        const existingUser = yield User_1.default.findOne({
+            $or: [{ nif }, { email }],
+        });
+        if (existingUser) {
+            const field = existingUser.nif === nif ? "NIF" : "email";
+            res
+                .status(400)
+                .json({ message: `The ${field} provided is already registered.` });
+            return;
+        }
         const hashedPassword = yield bcrypt_1.default.hash(password, 10);
         const user = new User_1.default({ name, nif, email, password: hashedPassword, role });
         try {

@@ -14,6 +14,17 @@ async function register(req: Request, res: Response) {
     res.status(400).json({ message: "NIF must have exactly 9 digits" });
     return;
   }
+  const existingUser = await User.findOne({
+    $or: [{ nif }, { email }],
+  });
+
+  if (existingUser) {
+    const field = existingUser.nif === nif ? "NIF" : "email";
+    res
+      .status(400)
+      .json({ message: `The ${field} provided is already registered.` });
+    return;
+  }
 
   const hashedPassword = await bcrypt.hash(password, 10);
   const user = new User({ name, nif, email, password: hashedPassword, role });
