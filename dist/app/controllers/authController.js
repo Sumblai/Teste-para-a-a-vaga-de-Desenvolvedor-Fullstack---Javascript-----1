@@ -14,7 +14,6 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.register = register;
 exports.login = login;
-// app/controllers/authController.ts
 const bcrypt_1 = __importDefault(require("bcrypt"));
 const Jwt_1 = require("../../utils/Jwt");
 const UserRepository_1 = require("../../infrastructure/repositories/UserRepository");
@@ -32,7 +31,11 @@ function register(req, res) {
         const user = new User_1.default({ name, nif, email, password: hashedPassword, role });
         try {
             const savedUser = yield userRepository.create(user);
-            res.json({ message: "User created", userId: savedUser._id });
+            res.json({
+                message: "User created",
+                userId: savedUser._id,
+                user: savedUser,
+            });
         }
         catch (error) {
             res.status(400).json({ message: "Error creating user", error });
@@ -54,7 +57,7 @@ function login(req, res, next) {
                 httpOnly: true,
                 maxAge: 60 * 60 * 1000,
             });
-            res.json({ token });
+            res.json({ token, user });
         }
         catch (error) {
             next(error);

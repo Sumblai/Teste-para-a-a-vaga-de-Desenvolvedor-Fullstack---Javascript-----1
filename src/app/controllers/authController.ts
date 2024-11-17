@@ -20,7 +20,11 @@ async function register(req: Request, res: Response) {
 
   try {
     const savedUser = await userRepository.create(user);
-    res.json({ message: "User created", userId: savedUser._id });
+    res.json({
+      message: "User created",
+      userId: savedUser._id,
+      user: savedUser,
+    });
   } catch (error) {
     res.status(400).json({ message: "Error creating user", error });
     console.log(error);
