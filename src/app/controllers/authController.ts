@@ -1,4 +1,3 @@
-// app/controllers/authController.ts
 import bcrypt from "bcrypt";
 import { generateToken } from "../../utils/Jwt";
 import { UserRepository } from "../../infrastructure/repositories/UserRepository";
@@ -48,7 +47,7 @@ async function login(
       maxAge: 60 * 60 * 1000,
     });
 
-    res.json({ token });
+    res.json({ token, user });
   } catch (error) {
     next(error);
   }
