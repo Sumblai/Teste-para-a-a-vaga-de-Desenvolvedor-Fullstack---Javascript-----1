@@ -10,7 +10,7 @@ import {
 } from "./app/controllers/serviceController";
 
 //import { sanitizeInput } from "./utils/security";
-import { authenticateJWT } from "./utils/Jwt";
+import { authenticateJWT, logout } from "./utils/Jwt";
 import {
   requireClientRole,
   requireProviderRole,
@@ -79,5 +79,7 @@ router.delete(
   requireClientRole,
   cancelBooking
 );
+
+router.post("/logout/:userId", logout);
 
 export { router };

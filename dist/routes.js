@@ -27,3 +27,4 @@ router.get("/clientHistory/:clientId", Jwt_1.authenticateJWT, rolemiddlewares_1.
 router.get("/providerHistory/:serviceId", Jwt_1.authenticateJWT, rolemiddlewares_1.requireProviderRole, bookingController_1.getServiceBookingHistory);
 router.put("/booking/:bookingId/update-date", Jwt_1.authenticateJWT, rolemiddlewares_1.requireClientRole, bookingController_1.updateBookingDate);
 router.delete("/booking/:bookingId", Jwt_1.authenticateJWT, rolemiddlewares_1.requireClientRole, bookingController_1.cancelBooking);
+router.post("/logout/:userId", Jwt_1.logout);
