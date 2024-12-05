@@ -34,6 +34,6 @@ export const validateAndSanitize = (
 
 export const loginLimiter = rateLimit({
   windowMs: 15 * 60 * 1000,
-  max: 6,
+  max: 40,
   message: "Too many login attempts, please try again later.",
 });

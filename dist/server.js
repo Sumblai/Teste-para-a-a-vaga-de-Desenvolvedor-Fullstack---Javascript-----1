@@ -12,7 +12,8 @@ dotenv_1.default.config();
 const express_1 = __importDefault(require("express"));
 const app = (0, express_1.default)();
 const port = process.env.PORT || 3000;
-const ORIGIN = `http://localhost:${port}`;
+const vite = 5173;
+const ORIGIN = `http://localhost:${vite}`;
 app.get("/", (req, res) => {
     res.send(`Server is running on port ${port} in ${process.env.NODE_ENV} mode`);
 });

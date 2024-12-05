@@ -8,7 +8,8 @@ import express, { Request, Response } from "express";
 
 const app = express();
 const port = process.env.PORT || 3000;
-const ORIGIN = `http://localhost:${port}`;
+const vite = 5173 
+const ORIGIN = `http://localhost:${vite}`;
 
 app.get("/", (req: Request, res: Response) => {
   res.send(`Server is running on port ${port} in ${process.env.NODE_ENV} mode`);

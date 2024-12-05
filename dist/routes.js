@@ -25,6 +25,9 @@ router.put("/updateBalance", Jwt_1.authenticateJWT, rolemiddlewares_1.requireCli
 router.put("/updateSlots", Jwt_1.authenticateJWT, rolemiddlewares_1.requireProviderRole, serviceController_1.updateAvailableSlots);
 router.get("/clientHistory/:clientId", Jwt_1.authenticateJWT, rolemiddlewares_1.requireClientRole, bookingController_1.getClientBookingHistory);
 router.get("/providerHistory/:serviceId", Jwt_1.authenticateJWT, rolemiddlewares_1.requireProviderRole, bookingController_1.getServiceBookingHistory);
+router.get("/serviceList/:providerId", Jwt_1.authenticateJWT, rolemiddlewares_1.requireProviderRole, serviceController_1.listServicesByProvider);
 router.put("/booking/:bookingId/update-date", Jwt_1.authenticateJWT, rolemiddlewares_1.requireClientRole, bookingController_1.updateBookingDate);
 router.delete("/booking/:bookingId", Jwt_1.authenticateJWT, rolemiddlewares_1.requireClientRole, bookingController_1.cancelBooking);
+router.get("/getAllServices", serviceController_1.getAllServices);
+router.get("/BookingHistoryByProviderId/:providerId", bookingController_1.ListBookingByProviderId);
 router.post("/logout/:userId", Jwt_1.logout);

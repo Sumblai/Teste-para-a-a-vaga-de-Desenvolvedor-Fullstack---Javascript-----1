@@ -2,6 +2,7 @@
 import mongoose, { Schema, Document } from "mongoose";
 
 interface IService extends Document {
+  companyname: string;
   name: string;
   description: string;
   price: number;
@@ -10,6 +11,7 @@ interface IService extends Document {
 }
 
 const ServiceSchema: Schema = new Schema({
+  companyname: { type: String, required: true },
   name: { type: String, required: true },
   description: { type: String, required: true },
   price: { type: Number, required: true },

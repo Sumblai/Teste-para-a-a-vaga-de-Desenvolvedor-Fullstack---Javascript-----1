@@ -12,7 +12,7 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
     return (mod && mod.__esModule) ? mod : { "default": mod };
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.cancelBooking = void 0;
+exports.ListBookingByProviderId = exports.cancelBooking = void 0;
 exports.createBooking = createBooking;
 exports.getClientBookingHistory = getClientBookingHistory;
 exports.getServiceBookingHistory = getServiceBookingHistory;
@@ -47,6 +47,7 @@ function createBooking(req, res) {
                     .json({ message: "Reservation date must be in the future" });
                 return;
             }
+            const providerId = service.providerId;
             const existingBooking = yield Booking_1.default.findOne({
                 clientId,
                 serviceId,
@@ -61,6 +62,7 @@ function createBooking(req, res) {
             const booking = new Booking_1.default({
                 clientId,
                 serviceId,
+                providerId,
                 reservationDate: reservationDateTime,
             });
             yield booking.save();
@@ -68,7 +70,8 @@ function createBooking(req, res) {
             service.availableSlots -= 1;
             yield client.save();
             yield service.save();
-            res.json({ message: "Booking successful", booking });
+            const balance = client.balance;
+            res.json({ message: "Booking successful", booking, balance });
         }
         catch (error) {
             res.status(500).json({ message: "Error creating booking", error });
@@ -196,4 +199,28 @@ const cancelBooking = (req, res) => __awaiter(void 0, void 0, void 0, function* 
     }
 });
 exports.cancelBooking = cancelBooking;
+const ListBookingByProviderId = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
+    try {
+        const { providerId } = req.params;
+        // Busca os bookings pelo providerId
+        const bookings = yield Booking_1.default.find({ providerId });
+        // Verifica se há bookings encontrados
+        if (bookings.length === 0) {
+            res
+                .status(404)
+                .json({ message: "Nenhuma reserva encontrada para este provedor." });
+            return;
+        }
+        // Retorna os bookings encontrados
+        res.status(200).json({ bookings });
+    }
+    catch (error) {
+        // Retorna um erro interno do servidor
+        console.error("Erro ao listar bookings:", error);
+        res
+            .status(500)
+            .json({ message: "Erro interno ao buscar histórico de reservas." });
+    }
+});
+exports.ListBookingByProviderId = ListBookingByProviderId;
 exports.default = exports.cancelBooking;

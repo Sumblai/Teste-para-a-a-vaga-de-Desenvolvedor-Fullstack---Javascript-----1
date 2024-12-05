@@ -1,4 +1,3 @@
-// domain/entities/BookingHistory.ts
 import mongoose, { Schema, Document } from "mongoose";
 
 interface IBookingHistory extends Document {

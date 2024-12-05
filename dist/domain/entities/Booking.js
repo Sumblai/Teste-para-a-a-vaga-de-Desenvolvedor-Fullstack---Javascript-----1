@@ -28,6 +28,7 @@ const mongoose_1 = __importStar(require("mongoose"));
 const BookingSchema = new mongoose_1.Schema({
     clientId: { type: mongoose_1.Schema.Types.ObjectId, ref: "User", required: true },
     serviceId: { type: mongoose_1.Schema.Types.ObjectId, ref: "Service", required: true },
+    providerId: { type: mongoose_1.Schema.Types.ObjectId, ref: "Provider", required: true },
     reservationDate: { type: Date, required: true },
     createdAt: { type: Date, default: Date.now },
 }, { timestamps: true });

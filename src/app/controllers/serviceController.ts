@@ -5,7 +5,7 @@ import User from "../../domain/entities/User";
 const serviceRepository = new ServiceRepository();
 
 export async function addService(req: Request, res: Response) {
-  const { name, description, price, providerId } = req.body;
+  const { companyname, name, description, price, providerId } = req.body;
 
   try {
     const user = await User.findById(providerId);
@@ -17,12 +17,18 @@ export async function addService(req: Request, res: Response) {
       return;
     }
 
-    const service = new Service({ name, description, price, providerId });
+    const service = new Service({
+      companyname,
+      name,
+      description,
+      price,
+      providerId,
+    });
 
     const savedService = await serviceRepository.create(service);
     res.json({
       message: "Service created",
-      serviceId: savedService._id,
+      service: savedService,
     });
   } catch (error) {
     res.status(400).json({ message: "Error creating service", error });
@@ -156,5 +162,58 @@ export async function updateAvailableSlots(
     });
   } catch (error) {
     res.status(500).json({ message: "Error updating available slots", error });
+  }
+}
+
+export async function listServicesByProvider(req: Request, res: Response): Promise<void> {
+  const { providerId } = req.params; // Obtém o providerId dos parâmetros da URL
+
+  try {
+    // Verifica se o usuário existe e é um prestador
+    const user = await User.findById(providerId);
+
+    if (!user || user.role !== "prestador") {
+       res
+        .status(403)
+        .json({ message: "Access denied. You are not a provider." });
+        return
+    }
+    const services = await Service.find({ providerId });
+
+    if (services.length === 0) {
+       res
+        .status(404)
+        .json({ message: "No services found for this provider." });
+        return
+    }
+
+    // Retorna a lista de serviços
+    res.json({ message: "Services retrieved successfully", services });
+  } catch (error) {
+    res.status(500).json({ message: "Error retrieving services", error });
+  }
+}
+
+export async function getAllServices(
+  req: Request,
+  res: Response
+): Promise<void> {
+  try {
+    // Encontrar todos os serviços no banco de dados
+    const services = await Service.find();
+
+    if (!services) {
+      res.status(404).json({ message: "No services found" });
+      return;
+    }
+
+    // Retornar todos os serviços encontrados
+    res.status(200).json({
+      message: "Services retrieved successfully",
+      services: services,
+    });
+  } catch (error) {
+    // Erro ao buscar os serviços
+    res.status(500).json({ message: "Error fetching services", error });
   }
 }

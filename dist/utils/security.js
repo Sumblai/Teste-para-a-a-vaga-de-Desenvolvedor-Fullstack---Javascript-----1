@@ -28,6 +28,6 @@ const validateAndSanitize = (req, res, next) => {
 exports.validateAndSanitize = validateAndSanitize;
 exports.loginLimiter = (0, express_rate_limit_1.default)({
     windowMs: 15 * 60 * 1000,
-    max: 6,
+    max: 40,
     message: "Too many login attempts, please try again later.",
 });

@@ -4,6 +4,8 @@ import { register, login } from "./app/controllers/authController";
 import {
   addService,
   deleteService,
+  getAllServices,
+  listServicesByProvider,
   updateAvailableSlots,
   updateBalance,
   updateService,
@@ -21,6 +23,7 @@ import {
   getServiceBookingHistory,
   cancelBooking,
   updateBookingDate,
+  ListBookingByProviderId,
 } from "./app/controllers/bookingController";
 
 import {
@@ -67,6 +70,13 @@ router.get(
   getServiceBookingHistory
 );
 
+router.get(
+  "/serviceList/:providerId",
+  authenticateJWT,
+  requireProviderRole,
+  listServicesByProvider
+);
+
 router.put(
   "/booking/:bookingId/update-date",
   authenticateJWT,
@@ -79,6 +89,12 @@ router.delete(
   requireClientRole,
   cancelBooking
 );
+
+
+router.get("/getAllServices", getAllServices)
+
+
+router.get("/BookingHistoryByProviderId/:providerId", ListBookingByProviderId)
 
 router.post("/logout/:userId", logout);
 

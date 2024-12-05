@@ -23,7 +23,6 @@ var __importStar = (this && this.__importStar) || function (mod) {
     return result;
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-// domain/entities/BookingHistory.ts
 const mongoose_1 = __importStar(require("mongoose"));
 const BookingHistorySchema = new mongoose_1.Schema({
     bookingId: { type: mongoose_1.Schema.Types.ObjectId, ref: "Booking", required: true },

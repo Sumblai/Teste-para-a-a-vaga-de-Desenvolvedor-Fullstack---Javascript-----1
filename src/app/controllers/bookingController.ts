@@ -38,6 +38,9 @@ export async function createBooking(
       return;
     }
 
+    const providerId = service.providerId;
+    
+
     const existingBooking = await Booking.findOne({
       clientId,
       serviceId,
@@ -53,6 +56,7 @@ export async function createBooking(
     const booking = new Booking({
       clientId,
       serviceId,
+      providerId,
       reservationDate: reservationDateTime,
     });
     await booking.save();
@@ -60,11 +64,14 @@ export async function createBooking(
     service.availableSlots -= 1;
     await client.save();
     await service.save();
-    res.json({ message: "Booking successful", booking });
+    const balance  = client.balance
+    res.json({ message: "Booking successful", booking, balance });
   } catch (error) {
     res.status(500).json({ message: "Error creating booking", error });
   }
 }
+
+
 
 export async function getClientBookingHistory(req: Request, res: Response) {
   const { clientId } = req.params;
@@ -204,4 +211,32 @@ export const cancelBooking = async (
   }
 };
 
+export const ListBookingByProviderId = async (
+  req: Request,
+  res: Response
+): Promise<void> => {
+  try {
+    const { providerId } = req.params;
+
+    // Busca os bookings pelo providerId
+    const bookings = await Booking.find({ providerId });
+
+    // Verifica se há bookings encontrados
+    if (bookings.length === 0) {
+      res
+        .status(404)
+        .json({ message: "Nenhuma reserva encontrada para este provedor." });
+      return;
+    }
+
+    // Retorna os bookings encontrados
+    res.status(200).json({ bookings });
+  } catch (error) {
+    // Retorna um erro interno do servidor
+    console.error("Erro ao listar bookings:", error);
+    res
+      .status(500)
+      .json({ message: "Erro interno ao buscar histórico de reservas." });
+  }
+};
 export default cancelBooking;

@@ -26,6 +26,7 @@ Object.defineProperty(exports, "__esModule", { value: true });
 // domain/entities/Service.ts
 const mongoose_1 = __importStar(require("mongoose"));
 const ServiceSchema = new mongoose_1.Schema({
+    companyname: { type: String, required: true },
     name: { type: String, required: true },
     description: { type: String, required: true },
     price: { type: Number, required: true },

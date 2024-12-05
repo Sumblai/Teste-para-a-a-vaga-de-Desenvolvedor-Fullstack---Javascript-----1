@@ -17,13 +17,15 @@ exports.updateService = updateService;
 exports.deleteService = deleteService;
 exports.updateBalance = updateBalance;
 exports.updateAvailableSlots = updateAvailableSlots;
+exports.listServicesByProvider = listServicesByProvider;
+exports.getAllServices = getAllServices;
 const Service_1 = __importDefault(require("../../domain/entities/Service"));
 const ServiceRepository_1 = require("../../infrastructure/repositories/ServiceRepository");
 const User_1 = __importDefault(require("../../domain/entities/User"));
 const serviceRepository = new ServiceRepository_1.ServiceRepository();
 function addService(req, res) {
     return __awaiter(this, void 0, void 0, function* () {
-        const { name, description, price, providerId } = req.body;
+        const { companyname, name, description, price, providerId } = req.body;
         try {
             const user = yield User_1.default.findById(providerId);
             if (!user || user.role !== "prestador") {
@@ -32,11 +34,17 @@ function addService(req, res) {
                     .json({ message: "Access denied. You are not a provider." });
                 return;
             }
-            const service = new Service_1.default({ name, description, price, providerId });
+            const service = new Service_1.default({
+                companyname,
+                name,
+                description,
+                price,
+                providerId,
+            });
             const savedService = yield serviceRepository.create(service);
             res.json({
                 message: "Service created",
-                serviceId: savedService._id,
+                service: savedService,
             });
         }
         catch (error) {
@@ -148,6 +156,54 @@ function updateAvailableSlots(req, res) {
         }
         catch (error) {
             res.status(500).json({ message: "Error updating available slots", error });
+        }
+    });
+}
+function listServicesByProvider(req, res) {
+    return __awaiter(this, void 0, void 0, function* () {
+        const { providerId } = req.params; // Obtém o providerId dos parâmetros da URL
+        try {
+            // Verifica se o usuário existe e é um prestador
+            const user = yield User_1.default.findById(providerId);
+            if (!user || user.role !== "prestador") {
+                res
+                    .status(403)
+                    .json({ message: "Access denied. You are not a provider." });
+                return;
+            }
+            const services = yield Service_1.default.find({ providerId });
+            if (services.length === 0) {
+                res
+                    .status(404)
+                    .json({ message: "No services found for this provider." });
+                return;
+            }
+            // Retorna a lista de serviços
+            res.json({ message: "Services retrieved successfully", services });
+        }
+        catch (error) {
+            res.status(500).json({ message: "Error retrieving services", error });
+        }
+    });
+}
+function getAllServices(req, res) {
+    return __awaiter(this, void 0, void 0, function* () {
+        try {
+            // Encontrar todos os serviços no banco de dados
+            const services = yield Service_1.default.find();
+            if (!services) {
+                res.status(404).json({ message: "No services found" });
+                return;
+            }
+            // Retornar todos os serviços encontrados
+            res.status(200).json({
+                message: "Services retrieved successfully",
+                services: services,
+            });
+        }
+        catch (error) {
+            // Erro ao buscar os serviços
+            res.status(500).json({ message: "Error fetching services", error });
         }
     });
 }
